@@ -1,7 +1,4 @@
-# Bathroom Map
-
-[![Web-App CI/CD](https://github.com/software-students-spring2025/5-final-null/actions/workflows/web-app-ci.yml/badge.svg)](https://github.com/software-students-spring2025/5-final-null/actions/workflows/web-app-ci.yml)
-[![Linting](https://github.com/software-students-spring2025/5-final-null/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/software-students-spring2025/5-final-null/actions/workflows/lint.yml)
+# Stall Street Journal
 
 ## Description
 

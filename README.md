@@ -28,7 +28,7 @@ The Bathroom Map project consists of two main subsystems:
 
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/SYLE61/Stall-Street-Journal)
+   git clone https://github.com/SYLE61/Stall-Street-Journal
    cd Stall-Street-Journal
    ```
 

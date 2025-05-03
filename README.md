@@ -2,7 +2,7 @@
 
 ## Description
 
-Bathroom Map is a web application that helps users find and review bathrooms in various buildings on NYU's campus. It provides information about bathroom locations, accessibility features, cleanliness ratings, and more.
+Stall Street Journal is a web application that helps users find and review bathrooms in various buildings on NYU's campus. It provides information about bathroom locations, accessibility features, cleanliness ratings, and more.
 
 ## Container Images
 

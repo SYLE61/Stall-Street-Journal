@@ -28,8 +28,8 @@ The Bathroom Map project consists of two main subsystems:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/software-students-spring2025/5-final-null
-   cd 5-final-null
+   git clone [https://github.com/SYLE61/Stall-Street-Journal)
+   cd Stall-Street-Journal
    ```
 
 2. Create environment variables file:

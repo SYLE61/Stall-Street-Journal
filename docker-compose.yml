@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  web-app:
+    image: python:3.8-slim-buster
+    container_name: bathroom_map_app
+    working_dir: /app
+    volumes:
+      - ./web-app:/app
+    ports:
+      - "5001:5001"
+    environment:
+      - MONGO_DBNAME=bathroom_map
+      - MONGO_URI=mongodb://admin:secret@mongo:27017
+      - FLASK_APP=app.py
+      - FLASK_ENV=development
+      - JWT_SECRET_KEY=jwt_secret_key_dev
+    env_file:
+      - ./web-app/.env
+    depends_on:
+      - mongo
+    command: >
+      bash -c "pip install --no-cache-dir -r requirements.txt &&
+               python -m flask run --host=0.0.0.0 --port=5001"
+  
+  mongo:
+    image: mongo:4.4
+    container_name: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=secret
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
+  
+networks:
+  app-network:
+    driver: bridge 

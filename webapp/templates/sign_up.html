@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stall Street Journal - Sign Up</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background-color: #f0f0f0;
+    }
+
+    nav {
+      background-color: #f7eedd;
+      padding: 15px 30px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+      padding: 0;
+      margin: 0;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #1e3554;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    nav ul li a:hover {
+      color: #5b5b5b;
+    }
+
+    .container {
+      display: flex;
+      height: calc(100vh - 60px); /* subtract nav bar height */
+    }
+
+    .left-pane {
+      background-color: #1e3554;
+      width: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .form-box {
+      background-color: #f7eedd;
+      padding: 40px 30px;
+      border-radius: 40px;
+      width: 80%;
+      max-width: 400px;
+    }
+
+    .form-box h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #000;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: bold;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .form-box button {
+      width: 100%;
+      padding: 12px;
+      background-color: white;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .login-link {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .right-pane {
+      background-color: #f7eedd;
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .logo {
+      width: 300px;
+      height: auto;
+      display: block;
+      margin-bottom: 20px;
+    }
+
+    .title {
+      font-size: 28px;
+      font-weight: bold;
+      text-align: center;
+      color: #1e3554;
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Nav Bar -->
+  <nav>
+    <ul>
+      <li><a href="{{ url_for('home') }}">Map</a></li>
+      <li><a href="{{ url_for('login_page') }}">Log In</a></li>
+    </ul>
+  </nav>
+
+  <!-- Split Layout -->
+  <div class="container">
+    <div class="left-pane">
+      <div class="form-box">
+        <h2>Unlock the Stall Street</h2>
+        <form id="signup-form">
+          <div class="form-group">
+            <label for="name">name</label>
+            <input type="text" id="name" name="name" required />
+          </div>
+          <div class="form-group">
+            <label for="email">email</label>
+            <input type="email" id="email" name="email" required />
+          </div>
+          <div class="form-group">
+            <label for="password">password</label>
+            <input type="password" id="password" name="password" required />
+          </div>
+          <button type="submit">Sign Up</button>
+        </form>
+        <div class="login-link">
+          Already have an account? <a href="/login">Login Here</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="right-pane">
+      <img class="logo" src="{{ url_for('static', filename='logo.png') }}" />
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("signup-form").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      try {
+        const res = await fetch("/api/auth/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name, email, password }),
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          window.location.href = "/login";
+        } else {
+          alert(data.error || "Registration failed");
+        }
+      } catch (err) {
+        console.error(err);
+        alert("An error occurred");
+      }
+    });
+  </script>
+</body>
+</html>

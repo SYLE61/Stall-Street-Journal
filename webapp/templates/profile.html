@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Stall Street Journal - Profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background-color: #1e3554;
+    }
+
+    nav {
+      background-color: #f7eedd;
+      padding: 15px 30px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+      padding: 0;
+      margin: 0;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #1e3554;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    nav ul li a:hover {
+      color: #5b5b5b;
+    }
+
+    .container {
+      padding: 30px;
+      display: flex;
+      gap: 40px;
+      color: white;
+    }
+
+    .profile-content {
+      flex: 2;
+    }
+
+    .badge {
+      flex: 1;
+      background-color: #fef5e7;
+      padding: 30px 20px;
+      border-radius: 12px;
+      text-align: center;
+      font-weight: 600;
+      color: #1e3554;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .badge .label {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: #5b5b5b;
+    }
+
+    .badge .level {
+      font-size: 36px;
+      font-weight: bold;
+      color: #1e3554;
+    }
+
+    .badge .title {
+      font-size: 20px;
+      margin-top: 5px;
+      color: #1e3554;
+    }
+
+    h2 {
+      font-size: 24px;
+      color: #1e3554;
+      margin-top: 0;
+    }
+
+    h3 {
+      margin-top: 30px;
+      color: #f7eedd;
+    }
+
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+
+    li {
+      margin-bottom: 20px;
+      border-bottom: 1px solid #f7eedd;
+      padding-bottom: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <ul>
+      <li><a href="{{ url_for('home') }}">Map</a></li>
+      <li><a href="#" onclick="handleLogout()">Logout</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <div class="profile-content">
+      <h2>Profile</h2>
+
+      <h3>{{ reviews|length }} ratings across campus</h3>
+      <ul>
+        {% for review in reviews %}
+          <li>
+            <div><strong>Bathroom ID:</strong> {{ review.bathroom_id }}</div>
+
+            <div><strong>Cleanliness:</strong>
+              {% for _ in range(review.ratings.cleanliness) %}
+                ⭐
+              {% endfor %}
+              ({{ review.ratings.cleanliness }}/5)
+            </div>
+
+            <div><strong>Privacy:</strong>
+              {% for _ in range(review.ratings.privacy) %}
+                ⭐
+              {% endfor %}
+              ({{ review.ratings.privacy }}/5)
+            </div>
+
+            <div><strong>Accessibility:</strong>
+              {% for _ in range(review.ratings.accessibility) %}
+                ⭐
+              {% endfor %}
+              ({{ review.ratings.accessibility }}/5)
+            </div>
+
+            {% if review.comment %}
+              <div style="margin-top: 5px;"><strong>Comment:</strong> {{ review.comment }}</div>
+            {% else %}
+              <div style="margin-top: 5px;"><strong>Comment:</strong> No comment left.</div>
+            {% endif %}
+          </li>
+        {% else %}
+          <li>No reviews yet.</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    {# Creative titles based on number of reviews #}
+    {% set review_count = reviews|length %}
+
+    {% if review_count <= 1 %}
+      {% set title = "First-Time Flusher 🌱" %}
+    {% elif review_count <= 3 %}
+      {% set title = "Seasoned Flusher 🌊" %}
+    {% elif review_count <= 5 %}
+      {% set title = "Toilet Tactician 🎯🚽" %}
+    {% elif review_count <= 9 %}
+      {% set title = "Bathroom Boss 🧻" %}
+    {% else %}
+      {% set title = "Supreme Toilet Master 👑🚽" %}
+    {% endif %}
+
+    <div class="badge">
+      <div class="label">You are a:</div>
+      <div class="level">{{ title }}</div>
+    </div>
+  </div>
+
+  <script>
+    async function handleLogout() {
+      await fetch("/api/auth/logout", {
+        method: "POST",
+        credentials: "same-origin"
+      });
+      window.location.href = "/login";
+    }
+  </script>
+
+</body>
+</html>
